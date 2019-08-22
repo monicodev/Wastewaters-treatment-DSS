@@ -463,12 +463,13 @@ namespace DSS_Tratamiento_de_aguas_residuales
             }
         }
 
-        private void ReporteUbicacion1(string id, string razonSocial, string analista, string fecha, string temperatura,
-            string ph, string turbiedad, string conductividad, string od, string dbo, string tot, string fec, string observacion)
+        private void ReporteUbicacion(string id, string razonSocial, string analista, string fecha, string temperatura,
+            string ph, string turbiedad, string conductividad, string od, string dbo, string sst, string tot, string fec,
+            string cloro, string observacion)
         {
             try
             {
-                string fileTest = "C:\\Sistema planta de tratamiento UCAB Guayana\\FDEIC23 PLANILLA DE RESULTADOS DE AGUAS NATURLE Y RESIDUALES.xlsx";
+                string fileTest = "C:\\DSS Tratamiento de aguas residuales\\PLANILLA DE RESULTADOS DE AGUAS RESIDUALES.xlsx";
 
                 Excel.Application excel = new Excel.Application();
                 excel.Visible = true;
@@ -481,253 +482,6 @@ namespace DSS_Tratamiento_de_aguas_residuales
                 x.Range["B11"].Value = (DateTime.Parse(fecha)).ToString("HH:mm");
                 x.Range["F9"].Value = "Planta de tratamiento " + razonSocial;
                 x.Range["F10"].Value = "Salida del vertedero de la planta de tratamiento";
-                x.Range["F11"].Value = observacion;
-
-                DataSet DS = Limites("Select parametro, val_min, val_max FROM Parametro " +
-                                        "WHERE parametro like 'Temperatura%' OR " +
-                                              "parametro like 'Ph%' OR " +
-                                              "parametro like 'Turbiedad%' OR " +
-                                              "parametro like 'Conductividad%' OR " +
-                                              "parametro like 'Oxigeno%' OR " +
-                                              "parametro like 'Demanda bioquimica de oxigeno (DBO5,20)%' OR " +
-                                              "parametro like 'Coliformes tot%' OR " +
-                                              "parametro like 'Coliformes fec%' "
-                                    );
-
-                InsertExcel(x, temperatura, "B15", DS.Tables[0].Rows[0]["val_min"].ToString(),
-                                                    DS.Tables[0].Rows[0]["val_max"].ToString(), "E15");
-                InsertExcel(x, ph, "B17", DS.Tables[0].Rows[1]["val_min"].ToString(),
-                                                    DS.Tables[0].Rows[1]["val_max"].ToString(), "E17");
-                InsertExcel(x, turbiedad, "B18", DS.Tables[0].Rows[2]["val_min"].ToString(),
-                                                    DS.Tables[0].Rows[2]["val_max"].ToString(), "E18");
-                InsertExcel(x, conductividad, "B19", DS.Tables[0].Rows[3]["val_min"].ToString(),
-                                                    DS.Tables[0].Rows[3]["val_max"].ToString(), "E19");
-                InsertExcel(x, od, "B25", DS.Tables[0].Rows[4]["val_min"].ToString(),
-                                                    DS.Tables[0].Rows[4]["val_max"].ToString(), "E25");
-                InsertExcel(x, dbo, "B26", DS.Tables[0].Rows[5]["val_min"].ToString(),
-                                                    DS.Tables[0].Rows[5]["val_max"].ToString(), "E26");
-                InsertExcel(x, tot, "B36", DS.Tables[0].Rows[6]["val_min"].ToString(),
-                                                    DS.Tables[0].Rows[6]["val_max"].ToString(), "E36");
-                InsertExcel(x, fec, "B37", DS.Tables[0].Rows[7]["val_min"].ToString(),
-                                                    DS.Tables[0].Rows[7]["val_max"].ToString(), "E37");
-
-                x.Range["A40"].Value = analista;
-                Directory.CreateDirectory(Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments), "Reportes Sistema Planta UCAB"));
-                book.SaveAs(".\\Reportes Sistema Planta UCAB\\Reporte muestra " + id + ".xlsx");
-                book = excel.Workbooks.Open(fileTest);
-                book.Close();
-            }
-            catch (Exception e)
-            {
-                MessageBox.Show("Error [ReporteUbicacion1]\n" + e.Message);
-            }
-        }
-
-        private void ReporteUbicacion2(string id, string razonSocial, string analista, string fecha, string temperatura,
-            string turbiedad, string conductividad, string od, string dbo, string sst, string observacion)
-        {
-            try
-            {
-                string fileTest = "C:\\Sistema planta de tratamiento UCAB Guayana\\FDEIC23 PLANILLA DE RESULTADOS DE AGUAS NATURLE Y RESIDUALES.xlsx";
-
-                Excel.Application excel = new Excel.Application();
-                excel.Visible = true;
-                Excel.Workbook book = excel.Workbooks.Add(fileTest);
-                Excel.Worksheet x = excel.ActiveSheet as Excel.Worksheet;
-
-                x.Range["G6"].Value = DateTime.Now.Date.ToString("dd-MM-yyyy");
-                x.Range["B9"].Value = id;
-                x.Range["B10"].Value = DateTime.Parse(fecha);
-                x.Range["B11"].Value = (DateTime.Parse(fecha)).ToString("HH:mm");
-                x.Range["F9"].Value = "Planta de tratamiento " + razonSocial;
-                x.Range["F10"].Value = "Reactor de aireación de la planta de tratamiento";
-                x.Range["F11"].Value = observacion;
-
-                DataSet DS = Limites("Select parametro, val_min, val_max FROM Parametro " +
-                                        "WHERE parametro like 'Temperatura%' OR " +
-                                              "parametro like 'Turbiedad%' OR " +
-                                              "parametro like 'Conductividad%' OR " +
-                                              "parametro like 'Oxigeno%' OR " +
-                                              "parametro like 'Demanda bioquimica de oxigeno (DBO5,20)%' OR " +
-                                              "parametro like 'Solidos suspendidos %'"
-                                    );
-
-                InsertExcel(x, temperatura, "B15", DS.Tables[0].Rows[0]["val_min"].ToString(),
-                                                    DS.Tables[0].Rows[0]["val_max"].ToString(), "E15");
-                InsertExcel(x, turbiedad, "B18", DS.Tables[0].Rows[1]["val_min"].ToString(),
-                                                    DS.Tables[0].Rows[1]["val_max"].ToString(), "E18");
-                InsertExcel(x, conductividad, "B19", DS.Tables[0].Rows[2]["val_min"].ToString(),
-                                                    DS.Tables[0].Rows[2]["val_max"].ToString(), "E19");
-                InsertExcel(x, od, "B25", DS.Tables[0].Rows[3]["val_min"].ToString(),
-                                                    DS.Tables[0].Rows[3]["val_max"].ToString(), "E25");
-                InsertExcel(x, dbo, "B26", DS.Tables[0].Rows[4]["val_min"].ToString(),
-                                                    DS.Tables[0].Rows[4]["val_max"].ToString(), "E26");
-                InsertExcel(x, sst, "B24", DS.Tables[0].Rows[5]["val_min"].ToString(),
-                                                    DS.Tables[0].Rows[5]["val_max"].ToString(), "E24");
-
-                x.Range["A40"].Value = analista;
-                Directory.CreateDirectory(Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments), "Reportes Sistema Planta UCAB"));
-                book.SaveAs(".\\Reportes Sistema Planta UCAB\\Reporte muestra " + id + ".xlsx");
-                book = excel.Workbooks.Open(fileTest);
-                book.Close();
-            }
-            catch (Exception e)
-            {
-                MessageBox.Show("Error [ReporteUbicacion2]\n" + e.Message);
-            }
-        }
-
-        private void ReporteUbicacion3(string id, string razonSocial, string analista, string fecha,
-            string od, string dbo, string sst, string observacion)
-        {
-            try
-            {
-                string fileTest = "C:\\Sistema planta de tratamiento UCAB Guayana\\FDEIC23 PLANILLA DE RESULTADOS DE AGUAS NATURLE Y RESIDUALES.xlsx";
-
-                Excel.Application excel = new Excel.Application();
-                excel.Visible = true;
-                Excel.Workbook book = excel.Workbooks.Add(fileTest);
-                Excel.Worksheet x = excel.ActiveSheet as Excel.Worksheet;
-
-                x.Range["G6"].Value = DateTime.Now.Date.ToString("dd-MM-yyyy");
-                x.Range["B9"].Value = id;
-                x.Range["B10"].Value = DateTime.Parse(fecha);
-                x.Range["B11"].Value = (DateTime.Parse(fecha)).ToString("HH:mm");
-                x.Range["F9"].Value = "Planta de tratamiento " + razonSocial;
-                x.Range["F10"].Value = "Salida del reactor de aireación de la planta de tratamiento";
-                x.Range["F11"].Value = observacion;
-
-                DataSet DS = Limites("Select parametro, val_min, val_max FROM Parametro " +
-                                        "WHERE parametro like 'Oxigeno%' OR " +
-                                              "parametro like 'Demanda bioquimica de oxigeno (DBO5,20)%' OR " +
-                                              "parametro like 'Solidos suspendidos %'"
-                                    );
-
-
-                InsertExcel(x, od, "B25", DS.Tables[0].Rows[0]["val_min"].ToString(),
-                                                    DS.Tables[0].Rows[0]["val_max"].ToString(), "E25");
-                InsertExcel(x, dbo, "B26", DS.Tables[0].Rows[1]["val_min"].ToString(),
-                                                    DS.Tables[0].Rows[1]["val_max"].ToString(), "E26");
-                InsertExcel(x, sst, "B24", DS.Tables[0].Rows[2]["val_min"].ToString(),
-                                                    DS.Tables[0].Rows[2]["val_max"].ToString(), "E24");
-
-                x.Range["A40"].Value = analista;
-                Directory.CreateDirectory(Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments), "Reportes Sistema Planta UCAB"));
-                book.SaveAs(".\\Reportes Sistema Planta UCAB\\Reporte muestra " + id + ".xlsx");
-                book = excel.Workbooks.Open(fileTest);
-                book.Close();
-            }
-            catch (Exception e)
-            {
-                MessageBox.Show("Error [ReporteUbicacion3]\n" + e.Message);
-            }
-        }
-
-        private void ReporteUbicacion4(string id, string razonSocial, string analista, string fecha, string observacion)
-        {
-            try
-            {
-                string fileTest = "C:\\Sistema planta de tratamiento UCAB Guayana\\FDEIC23 PLANILLA DE RESULTADOS DE AGUAS NATURLE Y RESIDUALES.xlsx";
-
-                Excel.Application excel = new Excel.Application();
-                excel.Visible = true;
-                Excel.Workbook book = excel.Workbooks.Add(fileTest);
-                Excel.Worksheet x = excel.ActiveSheet as Excel.Worksheet;
-
-                x.Range["G6"].Value = DateTime.Now.Date.ToString("dd-MM-yyyy");
-                x.Range["B9"].Value = id;
-                x.Range["B10"].Value = DateTime.Parse(fecha);
-                x.Range["B11"].Value = (DateTime.Parse(fecha)).ToString("HH:mm");
-                x.Range["F9"].Value = "Planta de tratamiento " + razonSocial;
-                x.Range["F10"].Value = "Entrada de recirculación de lodos de la planta de tratamiento";
-                x.Range["F11"].Value = observacion;
-
-                x.Range["A40"].Value = analista;
-                Directory.CreateDirectory(Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments), "Reportes Sistema Planta UCAB"));
-                book.SaveAs(".\\Reportes Sistema Planta UCAB\\Reporte muestra " + id + ".xlsx");
-                book = excel.Workbooks.Open(fileTest);
-                book.Close();
-            }
-            catch (Exception e)
-            {
-                MessageBox.Show("Error [ReporteUbicacion3]\n" + e.Message);
-            }
-        }
-
-
-        private void ReporteUbicacion5(string id, string razonSocial, string analista, string fecha, string temperatura,
-            string turbiedad, string conductividad, string od, string dbo, string sst, string observacion)
-        {
-            try
-            {
-                string fileTest = "C:\\Sistema planta de tratamiento UCAB Guayana\\FDEIC23 PLANILLA DE RESULTADOS DE AGUAS NATURLE Y RESIDUALES.xlsx";
-
-                Excel.Application excel = new Excel.Application();
-                excel.Visible = true;
-                Excel.Workbook book = excel.Workbooks.Add(fileTest);
-                Excel.Worksheet x = excel.ActiveSheet as Excel.Worksheet;
-
-                x.Range["G6"].Value = DateTime.Now.Date.ToString("dd-MM-yyyy");
-                x.Range["B9"].Value = id;
-                x.Range["B10"].Value = DateTime.Parse(fecha);
-                x.Range["B11"].Value = (DateTime.Parse(fecha)).ToString("HH:mm");
-                x.Range["F9"].Value = "Planta de tratamiento " + razonSocial;
-                x.Range["F10"].Value = "Salida del sedimentador secundario de la planta de tratamiento";
-                x.Range["F11"].Value = observacion;
-
-                DataSet DS = Limites("Select parametro, val_min, val_max FROM Parametro " +
-                                         "WHERE parametro like 'Temperatura%' OR " +
-                                               "parametro like 'Turbiedad%' OR " +
-                                               "parametro like 'Conductividad%' OR " +
-                                               "parametro like 'Oxigeno%' OR " +
-                                               "parametro like 'Demanda bioquimica de oxigeno (DBO5,20)%' OR " +
-                                               "parametro like 'Solidos suspendidos %'"
-                                     );
-
-
-                InsertExcel(x, temperatura, "B15", DS.Tables[0].Rows[0]["val_min"].ToString(),
-                                                    DS.Tables[0].Rows[0]["val_max"].ToString(), "E15");
-                InsertExcel(x, turbiedad, "B18", DS.Tables[0].Rows[1]["val_min"].ToString(),
-                                                    DS.Tables[0].Rows[1]["val_max"].ToString(), "E18");
-                InsertExcel(x, conductividad, "B19", DS.Tables[0].Rows[2]["val_min"].ToString(),
-                                                    DS.Tables[0].Rows[2]["val_max"].ToString(), "E19");
-                InsertExcel(x, od, "B25", DS.Tables[0].Rows[3]["val_min"].ToString(),
-                                                    DS.Tables[0].Rows[3]["val_max"].ToString(), "E25");
-                InsertExcel(x, dbo, "B26", DS.Tables[0].Rows[4]["val_min"].ToString(),
-                                                    DS.Tables[0].Rows[4]["val_max"].ToString(), "E26");
-                InsertExcel(x, sst, "B24", DS.Tables[0].Rows[5]["val_min"].ToString(),
-                                                    DS.Tables[0].Rows[5]["val_max"].ToString(), "E24");
-
-                x.Range["A40"].Value = analista;
-                Directory.CreateDirectory(Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments), "Reportes Sistema Planta UCAB"));
-                book.SaveAs(".\\Reportes Sistema Planta UCAB\\Reporte muestra " + id + ".xlsx");
-                book = excel.Workbooks.Open(fileTest);
-                book.Close();
-            }
-            catch (Exception e)
-            {
-                MessageBox.Show("Error [ReporteUbicacion4]\n" + e.Message);
-            }
-        }
-
-        private void ReporteUbicacion6(string id, string razonSocial, string analista, string fecha, string temperatura,
-            string ph, string turbiedad, string conductividad, string od, string dbo, string sst, string tot, string fec, string cloro, string observacion)
-        {
-            try
-            {
-                string fileTest = "C:\\Sistema planta de tratamiento UCAB Guayana\\FDEIC23 PLANILLA DE RESULTADOS DE AGUAS NATURLE Y RESIDUALES.xlsx";
-
-                Excel.Application excel = new Excel.Application();
-                excel.Visible = true;
-                Excel.Workbook book = excel.Workbooks.Add(fileTest);
-                Excel.Worksheet x = excel.ActiveSheet as Excel.Worksheet;
-
-                x.Range["G6"].Value = DateTime.Now.Date.ToString("dd-MM-yyyy");
-                x.Range["B9"].Value = id;
-                x.Range["B10"].Value = DateTime.Parse(fecha);
-                x.Range["B11"].Value = (DateTime.Parse(fecha)).ToString("HH:mm");
-                x.Range["F9"].Value = "Planta de tratamiento " + razonSocial;
-                x.Range["F10"].Value = "Salida de desinfección de la planta de tratamiento";
                 x.Range["F11"].Value = observacion;
 
                 DataSet DS = Limites("Select parametro, val_min, val_max FROM Parametro " +
@@ -755,24 +509,24 @@ namespace DSS_Tratamiento_de_aguas_residuales
                                                     DS.Tables[0].Rows[4]["val_max"].ToString(), "E25");
                 InsertExcel(x, dbo, "B26", DS.Tables[0].Rows[5]["val_min"].ToString(),
                                                     DS.Tables[0].Rows[5]["val_max"].ToString(), "E26");
-                InsertExcel(x, sst, "B24", DS.Tables[0].Rows[6]["val_min"].ToString(),
-                                                    DS.Tables[0].Rows[6]["val_max"].ToString(), "E24");
-                InsertExcel(x, tot, "B36", DS.Tables[0].Rows[7]["val_min"].ToString(),
-                                                    DS.Tables[0].Rows[7]["val_max"].ToString(), "E36");
-                InsertExcel(x, fec, "B37", DS.Tables[0].Rows[8]["val_min"].ToString(),
-                                                    DS.Tables[0].Rows[8]["val_max"].ToString(), "E37");
+                InsertExcel(x, sst, "B24", DS.Tables[0].Rows[5]["val_min"].ToString(),
+                                                    DS.Tables[0].Rows[5]["val_max"].ToString(), "E24");
+                InsertExcel(x, tot, "B36", DS.Tables[0].Rows[6]["val_min"].ToString(),
+                                                    DS.Tables[0].Rows[6]["val_max"].ToString(), "E36");
+                InsertExcel(x, fec, "B37", DS.Tables[0].Rows[7]["val_min"].ToString(),
+                                                    DS.Tables[0].Rows[7]["val_max"].ToString(), "E37");
                 InsertExcel(x, cloro, "B29", DS.Tables[0].Rows[9]["val_min"].ToString(),
                                                     DS.Tables[0].Rows[9]["val_max"].ToString(), "E29");
 
                 x.Range["A40"].Value = analista;
-                Directory.CreateDirectory(Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments), "Reportes Sistema Planta UCAB"));
-                book.SaveAs(".\\Reportes Sistema Planta UCAB\\Reporte muestra " + id + ".xlsx");
+                Directory.CreateDirectory(Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments), "Reportes Sistema Tratamiento de aguas residuales"));
+                book.SaveAs(".\\Reportes Sistema Tratamiento de aguas residuales\\Reporte muestra " + id + ".xlsx");
                 book = excel.Workbooks.Open(fileTest);
                 book.Close();
             }
             catch (Exception e)
             {
-                MessageBox.Show("Error [ReporteUbicacion6]\n" + e.Message);
+                MessageBox.Show("Error [ReporteUbicacion]\n" + e.Message);
             }
         }
 
@@ -791,48 +545,51 @@ namespace DSS_Tratamiento_de_aguas_residuales
                     switch (cbUbicacion.Text[0])
                     {
                         case '1':
-                            ReporteUbicacion1(dataGridView1.CurrentRow.Cells[0].Value.ToString(),
+                            ReporteUbicacion(dataGridView1.CurrentRow.Cells[0].Value.ToString(),
                         dataGridView1.CurrentRow.Cells[1].Value.ToString(), dataGridView1.CurrentRow.Cells[3].Value.ToString(),
                         dataGridView1.CurrentRow.Cells[5].Value.ToString(), dataGridView1.CurrentRow.Cells[6].Value.ToString(),
                         dataGridView1.CurrentRow.Cells[7].Value.ToString(), dataGridView1.CurrentRow.Cells[8].Value.ToString(),
                         dataGridView1.CurrentRow.Cells[9].Value.ToString(), dataGridView1.CurrentRow.Cells[10].Value.ToString(),
-                        dataGridView1.CurrentRow.Cells[17].Value.ToString(), dataGridView1.CurrentRow.Cells[20].Value.ToString(),
-                        dataGridView1.CurrentRow.Cells[21].Value.ToString(), dataGridView1.CurrentRow.Cells[22].Value.ToString());
+                        dataGridView1.CurrentRow.Cells[17].Value.ToString(), null, dataGridView1.CurrentRow.Cells[20].Value.ToString(),
+                        dataGridView1.CurrentRow.Cells[21].Value.ToString(), null,  dataGridView1.CurrentRow.Cells[22].Value.ToString());
                             break;
-                        case '2':
-                            ReporteUbicacion2(dataGridView1.CurrentRow.Cells[0].Value.ToString(),
-                        dataGridView1.CurrentRow.Cells[1].Value.ToString(), dataGridView1.CurrentRow.Cells[3].Value.ToString(),
-                        dataGridView1.CurrentRow.Cells[5].Value.ToString(), dataGridView1.CurrentRow.Cells[6].Value.ToString(),
-                        dataGridView1.CurrentRow.Cells[7].Value.ToString(), dataGridView1.CurrentRow.Cells[8].Value.ToString(),
-                        dataGridView1.CurrentRow.Cells[9].Value.ToString(), dataGridView1.CurrentRow.Cells[10].Value.ToString(),
-                        dataGridView1.CurrentRow.Cells[11].Value.ToString(), dataGridView1.CurrentRow.Cells[12].Value.ToString());
 
-                            break;
-                        case '3':
-                            ReporteUbicacion3(dataGridView1.CurrentRow.Cells[0].Value.ToString(),
+                        case '2':
+                            ReporteUbicacion(dataGridView1.CurrentRow.Cells[0].Value.ToString(),
                         dataGridView1.CurrentRow.Cells[1].Value.ToString(), dataGridView1.CurrentRow.Cells[3].Value.ToString(),
-                        dataGridView1.CurrentRow.Cells[5].Value.ToString(), dataGridView1.CurrentRow.Cells[6].Value.ToString(),
+                        dataGridView1.CurrentRow.Cells[5].Value.ToString(), dataGridView1.CurrentRow.Cells[6].Value.ToString(), null,
                         dataGridView1.CurrentRow.Cells[7].Value.ToString(), dataGridView1.CurrentRow.Cells[8].Value.ToString(),
-                        dataGridView1.CurrentRow.Cells[10].Value.ToString());
+                        dataGridView1.CurrentRow.Cells[9].Value.ToString(), dataGridView1.CurrentRow.Cells[10].Value.ToString(),
+                        dataGridView1.CurrentRow.Cells[11].Value.ToString(), null, null, null, dataGridView1.CurrentRow.Cells[12].Value.ToString());
+                            break;
+
+                        case '3':
+                            ReporteUbicacion(dataGridView1.CurrentRow.Cells[0].Value.ToString(),
+                        dataGridView1.CurrentRow.Cells[1].Value.ToString(), dataGridView1.CurrentRow.Cells[3].Value.ToString(),
+                        dataGridView1.CurrentRow.Cells[5].Value.ToString(), null, null, null, null, dataGridView1.CurrentRow.Cells[6].Value.ToString(),
+                        dataGridView1.CurrentRow.Cells[7].Value.ToString(), dataGridView1.CurrentRow.Cells[8].Value.ToString(),
+                        null, null, null, dataGridView1.CurrentRow.Cells[10].Value.ToString());
                             break;
 
                         case '4':
-                            ReporteUbicacion4(dataGridView1.CurrentRow.Cells[0].Value.ToString(),
+                            ReporteUbicacion(dataGridView1.CurrentRow.Cells[0].Value.ToString(),
                         dataGridView1.CurrentRow.Cells[1].Value.ToString(), dataGridView1.CurrentRow.Cells[3].Value.ToString(),
-                        dataGridView1.CurrentRow.Cells[5].Value.ToString(), dataGridView1.CurrentRow.Cells[8].Value.ToString());
+                        dataGridView1.CurrentRow.Cells[5].Value.ToString(), null, null, null, null, null, null, null, null, null, null,
+                        dataGridView1.CurrentRow.Cells[8].Value.ToString());
                             break;
 
                         case '5':
-                            ReporteUbicacion5(dataGridView1.CurrentRow.Cells[0].Value.ToString(),
+                            ReporteUbicacion(dataGridView1.CurrentRow.Cells[0].Value.ToString(),
                         dataGridView1.CurrentRow.Cells[1].Value.ToString(), dataGridView1.CurrentRow.Cells[3].Value.ToString(),
-                        dataGridView1.CurrentRow.Cells[5].Value.ToString(), dataGridView1.CurrentRow.Cells[6].Value.ToString(),
+                        dataGridView1.CurrentRow.Cells[5].Value.ToString(), dataGridView1.CurrentRow.Cells[6].Value.ToString(), null,
                         dataGridView1.CurrentRow.Cells[7].Value.ToString(), dataGridView1.CurrentRow.Cells[8].Value.ToString(),
                         dataGridView1.CurrentRow.Cells[9].Value.ToString(), dataGridView1.CurrentRow.Cells[11].Value.ToString(),
-                        dataGridView1.CurrentRow.Cells[12].Value.ToString(), dataGridView1.CurrentRow.Cells[13].Value.ToString());
-
+                        dataGridView1.CurrentRow.Cells[12].Value.ToString(), null, null, null,
+                        dataGridView1.CurrentRow.Cells[13].Value.ToString());
                             break;
+
                         case '6':
-                            ReporteUbicacion6(dataGridView1.CurrentRow.Cells[0].Value.ToString(),
+                            ReporteUbicacion(dataGridView1.CurrentRow.Cells[0].Value.ToString(),
                         dataGridView1.CurrentRow.Cells[1].Value.ToString(), dataGridView1.CurrentRow.Cells[3].Value.ToString(),
                         dataGridView1.CurrentRow.Cells[5].Value.ToString(), dataGridView1.CurrentRow.Cells[6].Value.ToString(),
                         dataGridView1.CurrentRow.Cells[7].Value.ToString(), dataGridView1.CurrentRow.Cells[8].Value.ToString(),
@@ -841,7 +598,17 @@ namespace DSS_Tratamiento_de_aguas_residuales
                         dataGridView1.CurrentRow.Cells[13].Value.ToString(), dataGridView1.CurrentRow.Cells[14].Value.ToString(),
                         dataGridView1.CurrentRow.Cells[15].Value.ToString(), dataGridView1.CurrentRow.Cells[16].Value.ToString());
                             break;
-                        default: MessageBox.Show("HACER EL CODIGO D:<"); break;/////////////////////////////////////////////////////////////////////////////
+
+                        default:
+                                ReporteUbicacion(dataGridView1.CurrentRow.Cells[0].Value.ToString(),
+                       dataGridView1.CurrentRow.Cells[1].Value.ToString(), dataGridView1.CurrentRow.Cells[3].Value.ToString(),
+                       dataGridView1.CurrentRow.Cells[5].Value.ToString(), dataGridView1.CurrentRow.Cells[6].Value.ToString(),
+                       dataGridView1.CurrentRow.Cells[7].Value.ToString(), dataGridView1.CurrentRow.Cells[8].Value.ToString(),
+                       dataGridView1.CurrentRow.Cells[9].Value.ToString(), dataGridView1.CurrentRow.Cells[10].Value.ToString(),
+                       dataGridView1.CurrentRow.Cells[17].Value.ToString(), dataGridView1.CurrentRow.Cells[20].Value.ToString(),
+                       dataGridView1.CurrentRow.Cells[21].Value.ToString(), dataGridView1.CurrentRow.Cells[22].Value.ToString(),
+                       dataGridView1.CurrentRow.Cells[23].Value.ToString(), dataGridView1.CurrentRow.Cells[26].Value.ToString());
+                           break;
                     }
                 }
             }

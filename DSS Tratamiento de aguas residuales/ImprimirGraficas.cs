@@ -31,9 +31,6 @@ namespace DSS_Tratamiento_de_aguas_residuales
                     grafico.Series["Valor Máximo"].ChartType = SeriesChartType.Line;
                     grafico.Series["Valor Máximo"].BorderWidth = 4;
                     grafico.Series["Valor Máximo"].Color = Color.FromArgb(12, 84, 38);
-                    //251, 204, 0
-                    //28, 161, 220
-                    //12,84,38
                     if (!string.IsNullOrWhiteSpace(DR[0].ToString()))
                     {
                         grafico.Series.Add("Valor Minimo");
