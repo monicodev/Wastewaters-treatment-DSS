@@ -3,12 +3,12 @@ Wastewater-treatment-DSS :computer:
 Las plantas depuradoras de aguas residuales se encargan de reducir las cargas contaminantes presentes en este tipo de aguas, antes de que estas sean vertidas en el medio ambiente, y para ello es fundamental que a estas aguas se le realicen varios análisis especializados que proporcionen información sobre ciertas propiedades de ellas y así poder tomar decisiones sobre los métodos de tratamientos a emplear paraque los efluentes de las plantas cumplan con la normas ambientales establecidas. Para ello se aplican modelos matemáticos que permiten tomar los datos obtenidos de los análisis realizados en los laboratorios y procesarlos para convertirlos en información útil. Por lo que a continuación se presenta el desarrollo de un prototipo de un sistema para el soporte de decisiones sobre los procesos operacionales de las plantas depuradoras de aguas residuales de tipo lodo activado. Este software permite brindar apoyo en el almacenamiento y procesamiento de los resultados de los ensayos de laboratorio realizados a las aguas residuales para ofrecer información que favorezca la toma de decisiones oportunas y certeras sobre los métodos de tratamientos a emplear para reducir los contaminantes que se encuentra en ellas.
 
 ## Indice de Contenido :paperclip:
-- [Introducción](#Introducción)
-- [Objetivo](#Objetivo)
-- [Requerimientos Funcionales](#Requerimientos)
-- [Casos de uso](#Casos)
-- [Diseño estructurado](#Diseño)
-- [Author](#Author)
+- [Introducción](#introducción-page_with_curl)
+- [Objetivo](#objetivo-dart)
+- [Requerimientos Funcionales](#requerimientos-funcionales-del-sistema-pushpin)
+- [Casos de uso](#casos-de-uso-speech_balloon)
+- [Diseño estructurado](#diseño-estructurado-capital_abcd-arrows_clockwise)
+- [Author](#author-black_nib)
 
 ## Introducción :page_with_curl:
 El agua es un recurso natural muy importante para los seres vivientes, por lo que es fundamental mantener su calidad para que esta no afecte negativamente en el ecosistema que le rodea. Por lo que las aguas portadoras de residuos, procedentes de las comunidades, a las que pueden agregarse eventualmente, aguas subterráneas, superficiales y pluviales; que vayan a ser vertidas en los cuerpos de agua deben pasar antes por una planta depuradora que se encargue de aplicar métodos de tratamientos para el saneamiento del agua con el fin de reducir las cargas contaminantes.
