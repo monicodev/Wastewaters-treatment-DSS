@@ -18,7 +18,7 @@ Para garantizar la calidad del agua, es necesario contar con cierto equipo que l
 Generalmente en las plantas de tratamiento se disponen de laboratorios donde se realizan análisis especializados para determinar variables, sobre las aguas residuales, que miden sus contaminantes, con la finalidad de tomar decisiones oportunas sobre los métodos de tratamientos a emplear para reducirlos, de tal forma que los efluentes de la planta cumplan con las normas ambientales establecidas. Para ello se aplican modelos matemáticos que se alimentan de los ensayos de laboratorio que generan la información que ayuda a reducir esta incertidumbre. 
 
 ## Objetivo :dart:
-Desarrollar un prototipo de un sistema de soporte de decisiones para los procesos operacionales de las plantas depuradoras de aguas residuales de tipo lodo activado.
+Desarrollar un prototipo de un sistema de apoyo para la toma de decisiones para los procesos operacionales de las plantas depuradoras de aguas residuales de tipo lodo activado.
 
 ## Requerimientos Funcionales del Sistema :pushpin:
 
